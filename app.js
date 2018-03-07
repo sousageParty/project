@@ -1,19 +1,21 @@
 var express = require('express');
 var app = express();
 
+var func = require('./Application/squares');
+
 app.use(express.static('public'));
 
 app.get('/project/areaSS', function(req, res){
-    var A = req.query.A;
-    var B = req.query.B;
+    var A = req.query.A - 0;
+    var B = req.query.B - 0;
     var F; eval('F = function (x) {return ' + req.query.f + ';}');
     var G; eval('G = function (x) {return ' + req.query.g + ';}');
     var method = req.query.method || 'points';
-    if (!isNaN(A - 0) && !isNaN(B - 0) && F instanceof Function && G instanceof Function) {
+    if (!isNaN(A) && !isNaN(B) && F instanceof Function && G instanceof Function) {
         try {
             F(0);
             G(0);
-            return res.send('ok');
+            return res.send(func.squares(F, G, A , B, method));
         } catch (e) {
             return res.send('function in not calculate');
         }
