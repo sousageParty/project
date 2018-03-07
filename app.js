@@ -15,7 +15,7 @@ app.get('/project/areaSS', function(req, res){
         try {
             F(0);
             G(0);
-            return res.send(func.squares(F, G, A , B, method));
+            return res.send({result: func.squares(F, G, A , B, method)});
         } catch (e) {
             return res.send('function in not calculate');
         }
