@@ -3,7 +3,7 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-app.use(express.static('public')); // apply static files
+app.use(express.static('public')); // aply static files
 var router = require('./application/router/router');
 app.use(router); // use remote router
 
