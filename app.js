@@ -1,40 +1,36 @@
 var express = require('express');
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
-var func = require('./Application/squares');
+app.use(express.static('public')); //apply static files
+var router = require('./Application/router/router');
+app.use(router);
 
-app.use(express.static('public'));
+var SOCKET_EVENTS = {
+    USER_LOGIN: 'user login',
+    USER_LOGOUT: 'user logout',
+    USER_START_GAME: 'user start game'
+};
 
-app.get('/project/areaSS', function(req, res){
-    var A = req.query.A - 0;
-    var B = req.query.B - 0;
-    var F; eval('F = function (x) {return ' + req.query.f + ';}');
-    var G; eval('G = function (x) {return ' + req.query.g + ';}');
-    var method = req.query.method || 'points';
-    if (!isNaN(A) && !isNaN(B) && F instanceof Function && G instanceof Function) {
-        try {
-            F(0);
-            G(0);
-            return res.send({result: func.squares(F, G, A , B, method)});
-        } catch (e) {
-            return res.send('function in not calculate');
-        }
-    }
-    res.send('wrong parameters');
+var MEDIATOR_EVENTS = {
+  SOME: 'some',
+  TEST: 'test'
+};
+
+var Mediator = require('./Application/modules/mediator');
+
+var auth = require('./public/js/auth/auth');
+var mediator = new Mediator({events: MEDIATOR_EVENTS});
+var UserManager = require('./Application/modules/user/userManager');
+
+mediator.subscribe(MEDIATOR_EVENTS.some, function (data) {
+    console.log(data, 'Hello! ');
 });
+mediator.call(MEDIATOR_EVENTS.some, 123123);
 
-app.get('/project/:name/:soname', function (req, res) {
-    var name = req.params.name;
-    var soname = req.params.soname;
-    res.send('Hello, ' +((name) ? name : 'unknow') + ' ' + ((soname) ? soname : 'Unknow') + '  sosiski!!!');
+var userManager = new UserManager({io: io, SOCKET_EVENTS: SOCKET_EVENTS});
 
+http.listen(3000, function () {
+    console.log('server start ap port 3000');
 });
-
-app.all('/*', function(req, res){
-    res.send('wrong way!');
-});
-
-var server = app.listen(3000, function () {
-        console.log('server start ap port 3000');
-});
-

@@ -17,7 +17,6 @@ function rectCalc (F, G, A, B) {
         x += dx;
     }
     return Math.abs(s2 - s1);
-
 }
 
 function trapezeCalc(F, G, A, B) {
