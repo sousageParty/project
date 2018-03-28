@@ -1,9 +1,49 @@
 <html>
+
 <head>
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="libraries/jquery/jquery-3.2.1.slim.js"></script>
+    <script type="text/javascript" src="libraries/bootstrap/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="libraries/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/Style.css">
     <script src="js/socket.io.js"></script>
     <script src="js/main.js"></script>
 </head>
+
 <body>
-    123456
+    <form class="form-horizontal" role="form"><br><br>
+        <h2 class="col-sm-offset-5 col-sm-5">МаратSpace</h2>
+        <div class="form-group" id="div_name">
+            <label for="name" class="sr-only">name</label>
+            <div class="col-sm-offset-5 col-sm-2">
+                <input type="text" class="form-control" id="inputName" placeholder="Name">
+            </div>
+        </div>
+        <div class="form-group" id="div_login">
+            <label for="login" class="sr-only">login</label>
+            <div class="col-sm-offset-5 col-sm-2">
+                <input type="text" class="form-control" id="inputLogin" placeholder="Login">
+                
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword" class="sr-only">password</label>
+            <div class="col-sm-offset-5 col-sm-2">
+                <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                <p class="text-danger" id="hint"></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-5 col-sm-2">
+                <input type="button" class="btn btn-default" id="Log_in" value="Log In">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-5 col-sm-6">
+                <input type="button" class="btn btn-default" id="registration" value="Зарегистрироваться">
+            </div>
+        </div>
+    </form>
 </body>
+
 </html>
