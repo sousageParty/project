@@ -1,0 +1,24 @@
+html, body {
+    width: 100%;
+    height: auto;
+}
+
+body{
+    background: url('../img/1234.jpg');
+}
+
+h2 {
+    width: 100%;
+    height: auto;
+    color: aliceblue;
+    font-family:'Trebuchet MS';
+    text-align: center;
+}
+
+.contain {
+    position: absolute;
+    left: 37%;
+    width: 350px;
+    height: 500px;
+    margin-top: 50px;
+}

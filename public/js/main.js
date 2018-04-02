@@ -1,0 +1,22 @@
+window.onload = function () {
+
+    var socket = io('http://localhost:3000');
+
+    var EVENTS = {
+        USER_LOGIN: 'user login',
+        USER_LOGOUT: 'user logout',
+        USER_AUTHORIZED: 'user authorized',
+        USER_REGISTERED: 'user registered',
+        USER_JOIN_GAME: 'user join game',
+        USER_LEAVE_GAME: 'user leave game',
+        GAME_SHOT: 'game shot'
+    };
+
+    var gameManager = new GameManager({socket: socket, EVENTS: EVENTS});
+    var userManager = new UserManager({socket: socket, EVENTS: EVENTS});
+
+    function initUI() {
+        new Tabs();
+    }
+    initUI();
+};

@@ -1,1 +1,48 @@
-123
+<html>
+    <head>
+
+        <meta charset="utf-8" />
+
+        <link rel="stylesheet" href="css/vendor/bootstrap.min.css">
+
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/tabs.css">
+
+        <script type="text/javascript" src="js/vendor/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="js/vendor/socket.io.js"></script>
+        <script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
+
+        <script type="text/javascript" src="js/Game/userManager.js"></script>
+        <script type="text/javascript" src="js/Game/gameManager.js"></script>
+        <script type="text/javascript" src="js/ui/tabs.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+
+    </head>
+    <body>
+
+        <input type="button" id="login" value="Login to me"/>
+        <input type="button" id="join_game" value="Стартуй меня полностью!!!"/>
+        <input type="button" id="leave_game" value="Покинь меня полностью, противный!"/>
+        <input type="button" id="shot_game" value="SHOOT TO ME!!!"/>
+        <h2 class="name">МаратSpace</h2>
+
+        <div class="contain">
+            <div class="headers">
+                <div class="tabs active" data-page="first-tab">Sign in</div>
+                <div class="tabs" style="margin-left: 30px;" data-page="second-tab">Sign up</div>
+            </div>
+            <div class="tab-content first-tab active-content">
+                <input type="text" class="content-elem content-input" placeholder="Nickname"/>
+                <input type="password" class="content-elem content-input" placeholder="Password"/>
+                <button class="content-elem content-btn">Войти!</button>
+            </div>
+            <div class="tab-content second-tab">
+                <input type="text" class="content-elem content-input" placeholder="Login"/>
+                <input type="text" class="content-elem content-input" placeholder="Username"/>
+                <input type="password" class="content-elem content-input" placeholder="Password"/>
+                <button class="content-elem content-btn">Зарегистрироваться!</button>
+            </div>
+        </div>
+
+    </body>
+</html>

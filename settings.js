@@ -1,10 +1,11 @@
 var SETTINGS = {};
+
 SETTINGS.func = function() {
-    return 'Vasya';
+	return 'Vasya';
 };
 
 SETTINGS.func2 = function() {
-    return 'Petya';
+	return 'Petya';
 };
 
 module.exports = SETTINGS;
