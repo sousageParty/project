@@ -14,6 +14,9 @@ function DB() {
     this.setUser = function (name, login, password) { // запись нового пользователя
         return orm.add('users', { name: name, login: login, password: password })
     };
+    this.getUser = function (login, password) {
+        return orm.detail('users', { login: login, password: password });
+    };
 
     this.uniqueUser = function (login) {// проверка есть ли пользователь в базе
         return orm.list('users', null, { login: login });
@@ -24,7 +27,7 @@ function DB() {
     };
 
     this.changeUserData =function(login, newLogin){
-        return orm.update('users2',{login: 'dima'},{login: '9'});
+        return orm.update('users',{ login: login },{ login: newLogin });
     };
     this.deinit = function () {
         db.close();

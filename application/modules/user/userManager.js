@@ -29,26 +29,23 @@ function UserManager(options) {
 		return (users[id]) ? users[id] : null;
 	}
 
-	function checkLogin(data) {
-		var deffered = q.defer();
-		db.uniqueUser(data.login).then(function (data) {
-			deffered.resolve(data);
-		});
-		return deffered.promise;
+	function checkLogin(login) {
+		return db.uniqueUser(login);
 	}
 
-	function registerUser(data, check_Login) {
-		if (check_Login == null) {
-			db.setUser(data.name, data.login, data.password);
-			return true;
-		} else
-			return false;
+	function registerUser(data) {
+		return db.setUser(data.name, data.login, data.password);
 	}
 
 	function userLogin(id, data) {
-		if (data && data.name && data.login && data.password) {
-			users[id] = new User(id, data.name, data.login);
-			return users;
+		if (data && data.login && data.password) {
+			return db.getUser(data.login, data.password).then(function (user) {
+				if (user) {
+                    users[id] = new User(id, user.name, user.login, user.password);
+                    return users;
+                }
+                return "error";
+			});
 		}
 		return null;
 	}
@@ -62,20 +59,20 @@ function UserManager(options) {
 		io.on('connection', function (socket) {
 			console.log('a user connected into userManager', socket.id);
 
-			/*socket.on(EVENTS.USER_AUTHORIZED, function (data) {
-				userAuth(data).then(function (data) {
-					socket.emit(EVENTS.USER_AUTHORIZED, data);
-				});
-			});*/
-
 			socket.on(EVENTS.USER_REGISTERED, function (data) {
-				checkLogin(data).then(function (check_Login) {
-					socket.emit(EVENTS.USER_REGISTERED, registerUser(data, check_Login));
+				checkLogin(data.login).then(function (check) {
+					if (check) {
+                        socket.emit(EVENTS.USER_REGISTERED, "ERROR");
+					} else {
+						socket.emit(EVENTS.USER_REGISTERED, registerUser(data))
+					}
 				});
 			});
 
 			socket.on(EVENTS.USER_LOGIN, function (data) {
-				socket.emit(EVENTS.USER_LOGIN, userLogin(socket.id, data));
+                userLogin(socket.id, data).then(function (data) {
+                    socket.emit(EVENTS.USER_LOGIN, data);
+				});
 			});
 
 			socket.on(EVENTS.USER_LOGOUT, function (data) {

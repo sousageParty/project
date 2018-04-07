@@ -19,29 +19,30 @@
 
     </head>
     <body>
-
-        <input type="button" id="login" value="Login to me"/>
-        <input type="button" id="join_game" value="Стартуй меня полностью!!!"/>
-        <input type="button" id="leave_game" value="Покинь меня полностью, противный!"/>
-        <input type="button" id="shot_game" value="SHOOT TO ME!!!"/>
-        <h2 class="name">МаратSpace</h2>
-
-        <div class="contain">
-            <div class="headers">
-                <div class="tabs active" data-page="first-tab">Sign in</div>
-                <div class="tabs" style="margin-left: 30px;" data-page="second-tab">Sign up</div>
+        <div class="first-page-js">
+            <h2 class="name" style="margin-top: 40px;">МаратSpace</h2>
+            <div class="contain">
+                <div class="headers">
+                    <div class="tabs active" data-page="first-tab">Sign in</div>
+                    <div class="tabs" style="margin-left: 30px;" data-page="second-tab">Sign up</div>
+                </div>
+                <div class="tab-content first-tab active-content">
+                    <input type="text" class="content-elem content-input signIn-input-js" placeholder="Login"/>
+                    <input type="password" class="content-elem content-input signIn-input-js" placeholder="Password"/>
+                    <button class="content-elem content-btn btn-signIn-js">Войти!</button>
+                </div>
+                <div class="tab-content second-tab">
+                    <input type="text" class="content-elem content-input auth-input-js" placeholder="Login"/>
+                    <input type="text" class="content-elem content-input auth-input-js" placeholder="Username"/>
+                    <input type="password" class="content-elem content-input auth-input-js" placeholder="Password"/>
+                    <button class="content-elem content-btn btn-auth-js">Зарегистрироваться!</button>
+                </div>
             </div>
-            <div class="tab-content first-tab active-content">
-                <input type="text" class="content-elem content-input" placeholder="Nickname"/>
-                <input type="password" class="content-elem content-input" placeholder="Password"/>
-                <button class="content-elem content-btn">Войти!</button>
-            </div>
-            <div class="tab-content second-tab">
-                <input type="text" class="content-elem content-input" placeholder="Login"/>
-                <input type="text" class="content-elem content-input" placeholder="Username"/>
-                <input type="password" class="content-elem content-input" placeholder="Password"/>
-                <button class="content-elem content-btn">Зарегистрироваться!</button>
-            </div>
+        </div>
+        <div class="second-page-js">
+            <input type="button" id="join_game" value="Стартуй меня полностью!!!"/>
+            <input type="button" id="leave_game" value="Покинь меня полностью, противный!"/>
+            <input type="button" id="shot_game" value="SHOOT TO ME!!!"/>
         </div>
 
     </body>
