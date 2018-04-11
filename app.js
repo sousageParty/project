@@ -19,19 +19,23 @@ var SOCKET_EVENTS = {
 	USER_REGISTERED: 'user registered',
 	USER_JOIN_GAME: 'user join game',
 	USER_LEAVE_GAME: 'user leave game',
-	GAME_SHOT: 'game shot'
+    GAME_UPDATE_SCENE: 'game update scene',
+};
+
+var TRIGGER_EVENTS = {
+	GET_USER: 'get user',
 };
 
 var MEDIATOR_EVENTS = {
 	SOME: 'some',
-	Test: 'test'
+	Test: 'test',
 };
 
 var mediator = new Mediator({ events: MEDIATOR_EVENTS });
 var trigger = new Trigger();
 var db = new DB();
-var userManager = new UserManager({ io: io, SOCKET_EVENTS: SOCKET_EVENTS, db: db, mediator: mediator, trigger: trigger });
-var gameManager = new GameManager({ io: io, SOCKET_EVENTS: SOCKET_EVENTS, db: db, mediator: mediator, trigger: trigger });
+var userManager = new UserManager({ io: io, SOCKET_EVENTS: SOCKET_EVENTS, TRIGGER_EVENTS: TRIGGER_EVENTS, db: db, mediator: mediator, trigger: trigger });
+var gameManager = new GameManager({ io: io, SOCKET_EVENTS: SOCKET_EVENTS, TRIGGER_EVENTS: TRIGGER_EVENTS, db: db, mediator: mediator, trigger: trigger });
 
 http.listen(3000, function () {
 	console.log('server start at port 3000');

@@ -1,6 +1,6 @@
 .headers {
     width: 100%;
-    height: auto;
+    height: 7%;
 }
 
 .tabs {
@@ -13,6 +13,7 @@
 
 .tabs:hover {
     cursor: pointer;
+    background-color: #011b34;
 }
 
 .active {
@@ -24,7 +25,7 @@
 .tab-content {
     width: 100%;
     height: auto;
-    margin-top: 50px;
+    margin-top: 30px;
     color: white;
 }
 
@@ -53,4 +54,14 @@
 .content-btn {
     background-color: green;
     color: white;
+}
+
+.content-btn:hover {
+    cursor: pointer;
+    background-color: darkgreen;
+}
+
+.error {
+    color: red;
+    text-align: center;
 }

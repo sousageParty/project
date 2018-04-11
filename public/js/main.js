@@ -9,14 +9,26 @@ window.onload = function () {
         USER_REGISTERED: 'user registered',
         USER_JOIN_GAME: 'user join game',
         USER_LEAVE_GAME: 'user leave game',
-        GAME_SHOT: 'game shot'
+        GAME_SHOT: 'game shot',
+        GAME_UPDATE_SCENE: 'game update scene'
     };
 
-    var gameManager = new GameManager({socket: socket, EVENTS: EVENTS});
-    var userManager = new UserManager({socket: socket, EVENTS: EVENTS});
+    var SELECTORS = {
+        tabs: $('.tabs'),
+        tabContent: $('.tab-content'),
+        sliders: $('.ranges'),
+        signInInputs: $('.signIn-input-js'),
+        authInputs: $('.auth-input-js'),
+        errorBlock: $('.error-js')
+    };
+
+    var userManager = new UserManager({socket: socket, EVENTS: EVENTS, SELECTORS: SELECTORS});
+    var gameManager = new GameManager({socket: socket, EVENTS: EVENTS, callback: { getUser: userManager.getUser, showPage: userManager._showPage }});
+
 
     function initUI() {
-        new Tabs();
+        new Tabs({ SELECTORS: SELECTORS });
+        new Ranges({ SELECTORS: SELECTORS });
     }
     initUI();
 };

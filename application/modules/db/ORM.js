@@ -41,8 +41,8 @@ function ORM(_db) {
 			}
 			db.serialize(function () {
 				var query = "SELECT " + ((detail) ? detail : "*") + " FROM " + table + ((str.length) ? " WHERE " + str.join((operand) ? " " + operand + " " : " AND ") : "");
-				db.all(query, arr, function (err, row) { 
-					deffered.resolve((err) ? null : row); 
+				db.get(query, arr, function (err, row) {
+					deffered.resolve((err) ? null : row);
 				});
 			});
 		} else {

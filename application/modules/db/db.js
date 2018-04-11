@@ -8,18 +8,15 @@ function DB() {
     var db;
     var orm;
 
-    this.userAuth = function (login, password) { // Авторизация пользователя
-        return orm.list('users', null, { login: login, password: password });
-    };
     this.setUser = function (name, login, password) { // запись нового пользователя
-        return orm.add('users', { name: name, login: login, password: password })
+        return orm.add('users', "name, login, password" , [ name, login, password ]);
     };
     this.getUser = function (login, password) {
         return orm.detail('users', { login: login, password: password });
     };
 
     this.uniqueUser = function (login) {// проверка есть ли пользователь в базе
-        return orm.list('users', null, { login: login });
+        return orm.list('users', { login: login });
     };
 
     this.deleteUser = function (login) {// удалить пользователя из базы 
@@ -34,7 +31,7 @@ function DB() {
     };
     
     function init() {
-        db = new sqlite3.Database(__dirname + '/dbMaratSpace');
+        db = new sqlite3.Database(__dirname + '/dbMaratSpace.db');
         orm = new ORM(db);
     }
     init();

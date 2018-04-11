@@ -9,21 +9,12 @@ function User(id, name, login) {
 function UserManager(options) {
 	options = (options instanceof Object) ? options : {};
 	var io = options.io;
-	var EVENTS = options.SOCKET_EVENTS;
+	var SOCKET_EVENTS = options.SOCKET_EVENTS;
+	var TRIGGER_EVENTS = options.TRIGGER_EVENTS;
 	var db = options.db;
 	var trigger = options.trigger;
 
 	var users = {};
-
-	/*function userAuth(data) {
-		var deffered = q.defer();
-		if (data && data.login && data.password) {
-			db.userAuth(data.login, data.password).then(function (data) {
-				deffered.resolve(data);
-			});
-		}
-		return deffered.promise;
-	}*/
 
 	function getUser(id) {
 		return (users[id]) ? users[id] : null;
@@ -34,7 +25,7 @@ function UserManager(options) {
 	}
 
 	function registerUser(data) {
-		return db.setUser(data.name, data.login, data.password);
+		return db.setUser(data.nickname, data.login, data.password);
 	}
 
 	function userLogin(id, data) {
@@ -42,9 +33,9 @@ function UserManager(options) {
 			return db.getUser(data.login, data.password).then(function (user) {
 				if (user) {
                     users[id] = new User(id, user.name, user.login, user.password);
-                    return users;
+                    return users[id];
                 }
-                return "error";
+                return "No such user in database";
 			});
 		}
 		return null;
@@ -59,24 +50,25 @@ function UserManager(options) {
 		io.on('connection', function (socket) {
 			console.log('a user connected into userManager', socket.id);
 
-			socket.on(EVENTS.USER_REGISTERED, function (data) {
+			socket.on(SOCKET_EVENTS.USER_REGISTERED, function (data) {
 				checkLogin(data.login).then(function (check) {
+					console.log(check);
 					if (check) {
-                        socket.emit(EVENTS.USER_REGISTERED, "ERROR");
+                        socket.emit(SOCKET_EVENTS.USER_REGISTERED, "User with this login is already exsists");
 					} else {
-						socket.emit(EVENTS.USER_REGISTERED, registerUser(data))
+						socket.emit(SOCKET_EVENTS.USER_REGISTERED, registerUser(data))
 					}
 				});
 			});
 
-			socket.on(EVENTS.USER_LOGIN, function (data) {
+			socket.on(SOCKET_EVENTS.USER_LOGIN, function (data) {
                 userLogin(socket.id, data).then(function (data) {
-                    socket.emit(EVENTS.USER_LOGIN, data);
+                    socket.emit(SOCKET_EVENTS.USER_LOGIN, data);
 				});
 			});
 
-			socket.on(EVENTS.USER_LOGOUT, function (data) {
-				socket.emit(EVENTS.USER_LOGOUT, userLogout(socket.id));
+			socket.on(SOCKET_EVENTS.USER_LOGOUT, function (data) {
+				socket.emit(SOCKET_EVENTS.USER_LOGOUT, userLogout(socket.id));
 			});
 
 			socket.on('disconnect', function () {
@@ -84,7 +76,7 @@ function UserManager(options) {
 			});
 		});
 
-		trigger.subscribe('getUser', getUser);
+		trigger.subscribe(TRIGGER_EVENTS.GET_USER, getUser);
 	}
 	init();
 }

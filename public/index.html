@@ -1,3 +1,4 @@
+<!DOCTYPE HTML>
 <html>
     <head>
 
@@ -6,20 +7,29 @@
         <link rel="stylesheet" href="css/vendor/bootstrap.min.css">
 
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/secondPage.css">
         <link rel="stylesheet" href="css/tabs.css">
+        <link rel="stylesheet" href="css/ranges.css">
+
 
         <script type="text/javascript" src="js/vendor/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="js/vendor/three.min.js"></script>
+        <script type="text/javascript" src="js/vendor/control.threejs.js"></script>
+
+        <script type="text/javascript" src="js/vendor/jquery-ui.min.js"></script>
         <script type="text/javascript" src="js/vendor/socket.io.js"></script>
         <script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
 
         <script type="text/javascript" src="js/Game/userManager.js"></script>
         <script type="text/javascript" src="js/Game/gameManager.js"></script>
+        <script type="text/javascript" src="js/Game/view/view.js"></script>
         <script type="text/javascript" src="js/ui/tabs.js"></script>
+        <script type="text/javascript" src="js/ui/ranges.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
 
     </head>
     <body>
-        <div class="first-page-js">
+        <div class="pages first-page-js">
             <h2 class="name" style="margin-top: 40px;">МаратSpace</h2>
             <div class="contain">
                 <div class="headers">
@@ -27,23 +37,41 @@
                     <div class="tabs" style="margin-left: 30px;" data-page="second-tab">Sign up</div>
                 </div>
                 <div class="tab-content first-tab active-content">
-                    <input type="text" class="content-elem content-input signIn-input-js" placeholder="Login"/>
+                    <input type="text" class="content-elem content-input signIn-input-js" placeholder="Login" autofocus/>
                     <input type="password" class="content-elem content-input signIn-input-js" placeholder="Password"/>
                     <button class="content-elem content-btn btn-signIn-js">Войти!</button>
+                    <div class="error error-js"></div>
                 </div>
                 <div class="tab-content second-tab">
-                    <input type="text" class="content-elem content-input auth-input-js" placeholder="Login"/>
+                    <input type="text" class="content-elem content-input auth-input-js" placeholder="Login" autofocus/>
                     <input type="text" class="content-elem content-input auth-input-js" placeholder="Username"/>
                     <input type="password" class="content-elem content-input auth-input-js" placeholder="Password"/>
                     <button class="content-elem content-btn btn-auth-js">Зарегистрироваться!</button>
+                    <div class="error error-js"></div>
                 </div>
             </div>
         </div>
-        <div class="second-page-js">
-            <input type="button" id="join_game" value="Стартуй меня полностью!!!"/>
-            <input type="button" id="leave_game" value="Покинь меня полностью, противный!"/>
-            <input type="button" id="shot_game" value="SHOOT TO ME!!!"/>
+        <div class="pages second-page-js">
+            <div class="settings">
+                <strong>Масса:&nbsp</strong>
+                <input type="range" min="1" max="100" value="50" class="ranges" data-value="mass"/>
+                <strong class="range-strong-js value mass"></strong> <br />
+                <strong>Центр планеты:&nbsp</strong>
+                <input type="range" min="-400" max="400" value="100" class="ranges" data-value="center"/>
+                <strong class="range-strong-js value center"></strong> <br />
+                <strong>Скорость вращения:&nbsp</strong>
+                <input type="range" min="0" max="1" value="0.002" step="0.0001" class="ranges" data-value="speed"/>
+                <strong class="range-strong-js value speed"></strong> <br />
+                <strong>Радиус:&nbsp</strong>
+                <input type="range" min="10" max="99" value="45" class="ranges" data-value="radius"/>
+                <strong class="range-strong-js value radius"></strong> <br />
+                <input type="button" class="game-btn join-game-btn-js" value="Стартуй меня полностью!!!"/>
+            </div>
+            <div class="watchExample"></div>
+            <!--<input type="button" class="game-btn leave-game-btn-js" value="Покинь меня полностью, противный!"/>
+            <input type="button" class="game-btn shot-game-btn-js" value="SHOOT TO ME!!!"/>-->
         </div>
-
+        <div class="pages third-page-js">
+        </div>
     </body>
 </html>
