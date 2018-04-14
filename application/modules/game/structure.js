@@ -8,6 +8,9 @@ function Point(x, y, z) {
 
 function Planet(options) {
     this.id = options.id;
+    this.sunId = options.sunId;
+    this.a = options.a;
+    this.b = options.b;
     this.name = options.name || 'Marat';
     this.face = options.face;
     this.mass = options.mass || 1; //tons

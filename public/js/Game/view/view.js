@@ -21,18 +21,17 @@ function View(selector, flag) {
         return Math.random() * (max - min) + min;
     }
 
-    this.createPlanet = function (radius, center, direction, color, speed) {
+    this.createPlanet = function (radius, center, color, speed) {
         for (var i = 0; i < meshes.length; i++) {
             var elem = meshes[i];
             if (!(getRast(elem, { radius: radius, center: center }))) {
                 return "Отодвиньте планету или уменьшите её!";
             }
         }
-        createSphere(radius, center, direction, color, speed);
+        createSphere(radius, center, color, speed);
     };
 
-
-    function createSphere(radius, center, direction, color, _speed) {
+    function createSphere(radius, center, color, _speed) {
         sphere = new THREE.SphereGeometry(radius, radius, radius);
         material = new THREE.MeshLambertMaterial({ color: color, wireframe: true });
         var texture = new THREE.Mesh(sphere, material);
@@ -40,7 +39,7 @@ function View(selector, flag) {
         texture.position.set(center.x, center.y, center.z);
         texture.radius = radius;
         texture.speed = _speed;
-        texture.direction = { x: direction.x, y: direction.y, z: direction.z };
+        console.log(texture.position);
         texture.koef = getKoef(0.1, 0.5);
         scene.add(texture);
         meshes.push(texture);
@@ -56,6 +55,7 @@ function View(selector, flag) {
             createSphere(100, { x: 0, y: 0, z: 0 }, { x: 0, y: 0, z: 0 }, "yellow");//создаем солнце
         }
         animate();//включаем анимацию
+        renderer.setSize(selector.width(), selector.height());//устанавливаем размеры канваса
         selector.empty();
         selector.append(renderer.domElement);//добавляем канвас в документ
         renderer.render(scene, camera);//рисуем в канвасе
@@ -68,22 +68,7 @@ function View(selector, flag) {
     }
 
     function render() {
-        for (var i = 0; i < meshes.length; i++) {
-            meshes[i].rotation.y += (meshes[i].speed) ? meshes[i].speed : 0.0002;
-            if (i > 0) {
-                /*if (meshes[i].position.x > 0) {
-                    meshes[i].position.x -= Math.sin(time * meshes[i].koef) * meshes[i].direction.x;
-                    meshes[i].position.z -= Math.cos(time * meshes[i].koef) * meshes[i].direction.z;
-                } else {
 
-                }*/
-                meshes[i].position.x += Math.sin(time * meshes[i].koef) * meshes[i].direction.x;
-                meshes[i].position.z += Math.cos(time * meshes[i].koef) * meshes[i].direction.z;
-            }
-        }
-        time += Math.PI / 180 * 2;
-        renderer.setSize(selector.width(), selector.height());//устанавливаем размеры канваса
-        renderer.render(scene, camera);
     }
 
     init();

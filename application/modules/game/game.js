@@ -1,4 +1,5 @@
 var ST = require('./structure');
+var kepler = require('./kepler');
 
 function Game(options) {
 
@@ -7,6 +8,7 @@ function Game(options) {
     var callback = options.callback || {};
     var updateSceneCallback = (callback.updateScene instanceof Function) ? callback.updateScene : function () {};
 
+    var t = 0; //time of Universe
     var interval;
     var TICK = 500; //ms
     var scene = {
@@ -15,6 +17,18 @@ function Game(options) {
     };
 
     function updateScene() {
+        t++;
+        for (var key in scene.planets) {
+            if (scene.planets[key]) {
+                var planet = scene.planets[key];
+                var sun = (planet.sunId && scene.planets[planet.sunId]) ? scene.planets[planet.sunId] : null;
+                if (sun) {
+                    var koord = kepler(sun, planet, t);
+                    planet.position.x = koord.x;
+                    planet.position.y = koord.y;
+                }
+            }
+        }
         updateSceneCallback(scene);
     }
 
@@ -41,7 +55,10 @@ function Game(options) {
     };
 
     function init() {
-        interval = setInterval(updateScene, TICK);
+        scene.planets['sun'] = new ST.Planet({ id: 'sun', mass: 10000, radius: 100, position: new ST.Point(0, 0, 0) });
+        scene.planets['earth'] = new ST.Planet({ id: 'earth', mass: 1, radius: 1, position: new ST.Point(50, 0, 0), a: 5, b: 4, sunId: 'sun' });
+        //interval = setInterval(updateScene, TICK);
+        updateScene();
     }
     init();
 }

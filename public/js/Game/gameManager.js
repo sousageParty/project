@@ -12,22 +12,26 @@ function GameManager(options) {
     var user;
     var view;
 
+    function joinGame() {
+        user = getUserCallback();
+        var mass = $('.mass').html() - 0;
+        var center = $('.center').html() - 0;
+        var speed = $('.speed').html() - 0;
+        var radius = $('.radius').html() - 0;
+        if (mass && center && speed && radius) {
+            socket.emit(EVENTS.USER_JOIN_GAME, { mass: mass, center: center, speed: speed, radius: radius });
+        }
+    }
+
     //Вешаем события. Генерируем события, касающиеся игры здесь!
     function eventHandler() {
         $('.ranges').on('change', function () {
             view = null;
-            view = new View($('.watchExample'), true);
+            view = new View($('.watchExample'), false);
             view.createPlanet($('.radius').html() - 0, { x: $('.center').html() - 0, y: 0, z: 0 }, { x: 5, y: 0, z: 3 }, color, $('.speed').html() - 0);
         });
         $('.join-game-btn-js').on('click', function() {//присоединиться к игре
-            user = getUserCallback();
-            var mass = $('.mass').html() - 0;
-            var center = $('.center').html() - 0;
-            var speed = $('.speed').html() - 0;
-            var radius = $('.radius').html() - 0;
-            if (mass && center && speed && radius) {
-                socket.emit(EVENTS.USER_JOIN_GAME, { mass: mass, center: center, speed: speed, radius: radius });
-            }
+            joinGame();
         });
         $('.leave-game-btn-js').on('click', function() {//выйти из игры
             socket.emit(EVENTS.USER_LEAVE_GAME);
@@ -47,7 +51,7 @@ function GameManager(options) {
             //console.log(data);
             if (!($.isEmptyObject(data.planets))) {
                 for(var key in data.planets) {
-                    view.createPlanet(data.planets[key].radius, data.planets[key].position, data.planets[key].direction, data.planets[key].face, data.planets[key].speed);
+                    view.createPlanet(data.planets[key].radius, data.planets[key].position, data.planets[key].face, data.planets[key].speed);
                 }
             }
         });

@@ -23,9 +23,15 @@ h2 {
 }
 
 .contain {
-    position: absolute;
-    left: 37%;
+    margin: 50px auto;
     width: 350px;
     height: 500px;
-    margin-top: 50px;
+}
+
+.name {
+    margin-top: 40px;
+}
+
+.signUp {
+    margin-left: 30px;
 }
