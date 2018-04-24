@@ -21,17 +21,32 @@ function View(selector, flag) {
         return Math.random() * (max - min) + min;
     }
 
+    function clearScene() {
+        for (var i = 0; i < meshes.length; i++)
+            scene.remove(meshes[i])
+        meshes = [];
+    }
+
     this.createPlanet = function (radius, center, color, speed) {
-        for (var i = 0; i < meshes.length; i++) {
+        //console.log(radius, center, color, speed);
+        /*for (var i = 0; i < meshes.length; i++) {
             var elem = meshes[i];
             if (!(getRast(elem, { radius: radius, center: center }))) {
                 return "Отодвиньте планету или уменьшите её!";
             }
-        }
+        }*/
         createSphere(radius, center, color, speed);
     };
 
+    this.createPlanets = function (planets) {
+        clearScene();
+        for (var key in planets) {
+            createSphere(planets[key].radius, planets[key].position, planets[key].face, planets[key].speed);
+        }
+    };
+
     function createSphere(radius, center, color, _speed) {
+        console.log(radius, center, color, _speed);
         sphere = new THREE.SphereGeometry(radius, radius, radius);
         material = new THREE.MeshLambertMaterial({ color: color, wireframe: true });
         var texture = new THREE.Mesh(sphere, material);
@@ -39,8 +54,8 @@ function View(selector, flag) {
         texture.position.set(center.x, center.y, center.z);
         texture.radius = radius;
         texture.speed = _speed;
-        console.log(texture.position);
         texture.koef = getKoef(0.1, 0.5);
+        //console.log(texture.position);
         scene.add(texture);
         meshes.push(texture);
         animate();
@@ -51,11 +66,8 @@ function View(selector, flag) {
         camera.position.set(0, 0, 2000);//ставим камеру
         spotLight.position.set(camera.position.x, camera.position.y, camera.position.z);//ставим свет
         scene.add(spotLight);//добавляем свет
-        if (flag) {
-            createSphere(100, { x: 0, y: 0, z: 0 }, { x: 0, y: 0, z: 0 }, "yellow");//создаем солнце
-        }
         animate();//включаем анимацию
-        renderer.setSize(selector.width(), selector.height());//устанавливаем размеры канваса
+        //renderer.setSize(selector.width(), selector.height());//устанавливаем размеры канваса
         selector.empty();
         selector.append(renderer.domElement);//добавляем канвас в документ
         renderer.render(scene, camera);//рисуем в канвасе
@@ -68,7 +80,12 @@ function View(selector, flag) {
     }
 
     function render() {
-
+        for (var i = 0; i < meshes.length; i++) {
+            meshes[i].rotation.y += (meshes[i].speed) ? meshes[i].speed : 0.0002;
+        }
+        spotLight.position.set(camera.position.x, camera.position.y, camera.position.z);//ставим свет
+        renderer.setSize(selector.width(), selector.height());//устанавливаем размеры канваса
+        renderer.render(scene, camera);
     }
 
     init();

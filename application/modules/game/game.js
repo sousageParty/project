@@ -17,7 +17,7 @@ function Game(options) {
     };
 
     function updateScene() {
-        t++;
+        t += 10000;
         for (var key in scene.planets) {
             if (scene.planets[key]) {
                 var planet = scene.planets[key];
@@ -26,6 +26,7 @@ function Game(options) {
                     var koord = kepler(sun, planet, t);
                     planet.position.x = koord.x;
                     planet.position.y = koord.y;
+                    //console.log(koord);
                 }
             }
         }
@@ -38,7 +39,8 @@ function Game(options) {
 
     this.join  = function (user, data) {
         if (user && data && data instanceof Object) {
-            scene.planets[user.id] = new ST.Planet({ id: user.id, name: user.name, mass: data.mass, face: ("rgb(" + Math.round(Math.random() * 255) + ", " + Math.round(Math.random() * 255) + ", " + Math.round(Math.random() * 255) + ")"), radius: data.radius, speed: data.speed, position: new ST.Point(data.center, 0, 0), direction: new ST.Point(1, 1, 0) });
+            var color = ("rgb(" + Math.round(Math.random() * 255) + ", " + Math.round(Math.random() * 255) + ", " + Math.round(Math.random() * 255) + ")");//переделать, извращение!
+            scene.planets[user.id] = new ST.Planet({ id: user.id, sunId: ((data.sunId) ? data.sunId : "sun"), a: 7, b: 4, name: user.name, mass: data.mass, face: ((data.face) ? data.face: color), radius: data.radius, speed: data.speed, position: new ST.Point(data.center, 0, 0), direction: new ST.Point(1, 1, 0) });
         }
     };
     this.leave = function (user) {
@@ -55,10 +57,9 @@ function Game(options) {
     };
 
     function init() {
-        scene.planets['sun'] = new ST.Planet({ id: 'sun', mass: 10000, radius: 100, position: new ST.Point(0, 0, 0) });
-        scene.planets['earth'] = new ST.Planet({ id: 'earth', mass: 1, radius: 1, position: new ST.Point(50, 0, 0), a: 5, b: 4, sunId: 'sun' });
-        //interval = setInterval(updateScene, TICK);
-        updateScene();
+        scene.planets['sun'] = new ST.Planet({ id: 'sun', mass: 10000, radius: 100, position: new ST.Point(0, 0, 0), face: "yellow" });
+        //scene.planets['earth'] = new ST.Planet({ id: 'earth', mass: 1, radius: 1, position: new ST.Point(50, 0, 0), a: 5, b: 4, sunId: 'sun' });
+        interval = setInterval(updateScene, TICK);
     }
     init();
 }

@@ -12,7 +12,6 @@ window.onload = function () {
         GAME_SHOT: 'game shot',
         GAME_UPDATE_SCENE: 'game update scene'
     };
-
     var SELECTORS = {
         tabs: $('.tabs'),
         tabContent: $('.tab-content'),
@@ -23,8 +22,7 @@ window.onload = function () {
     };
 
     var userManager = new UserManager({socket: socket, EVENTS: EVENTS, SELECTORS: SELECTORS});
-    var gameManager = new GameManager({socket: socket, EVENTS: EVENTS, callback: { getUser: userManager.getUser, showPage: userManager._showPage }});
-
+    var gameManager = new GameManager({socket: socket, EVENTS: EVENTS, callback: { getUser: userManager.getUser, showPage: userManager.showPages }});
 
     function initUI() {
         new Tabs({ SELECTORS: SELECTORS });

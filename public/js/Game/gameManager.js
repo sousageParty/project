@@ -28,7 +28,8 @@ function GameManager(options) {
         $('.ranges').on('change', function () {
             view = null;
             view = new View($('.watchExample'), false);
-            view.createPlanet($('.radius').html() - 0, { x: $('.center').html() - 0, y: 0, z: 0 }, { x: 5, y: 0, z: 3 }, color, $('.speed').html() - 0);
+            //{ x: 5, y: 0, z: 3 },
+            view.createPlanet($('.radius').html() - 0, { x: $('.center').html() - 0, y: 0, z: 0 }, color, $('.speed').html() - 0);
         });
         $('.join-game-btn-js').on('click', function() {//присоединиться к игре
             joinGame();
@@ -49,15 +50,14 @@ function GameManager(options) {
         });
         socket.on(EVENTS.GAME_UPDATE_SCENE, function (data) {//обновить сцену
             //console.log(data);
-            if (!($.isEmptyObject(data.planets))) {
-                for(var key in data.planets) {
+            if (!($.isEmptyObject(data.planets)) && view) {
+                view.createPlanets(data.planets);
+                /*for(var key in data.planets) {
                     view.createPlanet(data.planets[key].radius, data.planets[key].position, data.planets[key].face, data.planets[key].speed);
-                }
+                }*/
             }
         });
     }
-
-
 
     function init() {
         eventHandler();

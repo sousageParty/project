@@ -17,7 +17,7 @@ function UserManager(options) {
         $('.' + page).show();
     }
 
-    this._showPage = function (page) {
+    this.showPages = function (page) {
         showPage(page);
     };
 
