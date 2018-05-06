@@ -1,44 +1,32 @@
 window.onload = function () {
+
     var socket = io('http://localhost:3000');
 
     var EVENTS = {
         USER_LOGIN: 'user login',
         USER_LOGOUT: 'user logout',
-        USER_REGISTERED:'user registered',
-        USER_START_GAME: 'user start game'
+        USER_AUTHORIZED: 'user authorized',
+        USER_REGISTERED: 'user registered',
+        USER_JOIN_GAME: 'user join game',
+        USER_LEAVE_GAME: 'user leave game',
+        GAME_SHOT: 'game shot',
+        GAME_UPDATE_SCENE: 'game update scene'
     };
-    $("#inputLogin").change(function(){
-        socket.emit(EVENTS.USER_REGISTERED, {
-            login: $("#inputLogin").val()
-        });
-    });
-    $("#Log_in").click(function () {  
-        socket.emit(EVENTS.USER_LOGIN, {
-            name: $("#inputName").val(),
-            login: $("#inputLogin").val(),
-            password: $("#inputPassword").val()
-        });
-    });
-    socket.on(EVENTS.USER_REGISTERED,function(data){
-        console.log($('#hint'));
-        console.log(data);
-        if (data == null){
-            $('#hint').show();
-            $('#hint').html("Этот логин не заренистрирован, нажав кнопку войти вы зарегистрируете пользователя"); 
-        }else
-        $('#hint').hide();
-    });
+    var SELECTORS = {
+        tabs: $('.tabs'),
+        tabContent: $('.tab-content'),
+        sliders: $('.ranges'),
+        signInInputs: $('.signIn-input-js'),
+        authInputs: $('.auth-input-js'),
+        errorBlock: $('.error-js')
+    };
 
-    socket.on(EVENTS.USER_LOGIN, function (data) {
-        console.log(data);
-        if (data == null) {
-            $("#hint_1")[0].innerHTML = "Вы не ввели логин и(или) пароль";
-        }
-       
-    });
-    function LogIn(){
-        $('#registration').hide();
+    var userManager = new UserManager({socket: socket, EVENTS: EVENTS, SELECTORS: SELECTORS});
+    var gameManager = new GameManager({socket: socket, EVENTS: EVENTS, callback: { getUser: userManager.getUser, showPage: userManager.showPages }});
+
+    function initUI() {
+        new Tabs({ SELECTORS: SELECTORS });
+        new Ranges({ SELECTORS: SELECTORS });
     }
-    LogIn();
-   
-};	
+    initUI();
+};
