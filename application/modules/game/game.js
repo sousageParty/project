@@ -10,7 +10,7 @@ function Game(options) {
 
     var t = 0; //time of Universe
     var interval;
-    var TICK = 500; //ms
+    var TICK = 30; //ms
     var scene = {
         planets: {},
         rockets: {}
@@ -40,9 +40,11 @@ function Game(options) {
     this.join  = function (user, data) {
         if (user && data && data instanceof Object) {
             var color = ("rgb(" + Math.round(Math.random() * 255) + ", " + Math.round(Math.random() * 255) + ", " + Math.round(Math.random() * 255) + ")");//переделать, извращение!
-            scene.planets[user.id] = new ST.Planet({ id: user.id, sunId: ((data.sunId) ? data.sunId : "sun"), a: 7, b: 4, name: user.name, mass: data.mass, face: ((data.face) ? data.face: color), radius: data.radius, speed: data.speed, position: new ST.Point(data.center, 0, 0), direction: new ST.Point(1, 1, 0) });
+            scene.planets[user.id] = new ST.Planet({ id: user.id, sunId: ((data.sunId) ? data.sunId : "sun"), a: 700, b: 400, name: user.name, mass: data.mass, face: ((data.face) ? data.face: color), radius: data.radius, speed: data.speed, position: new ST.Point(data.center, 0, 0), direction: new ST.Point(1, 1, 0) });
         }
+        return scene;
     };
+
     this.leave = function (user) {
         if (user) {
             delete scene.planets[user.id];

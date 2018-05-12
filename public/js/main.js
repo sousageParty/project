@@ -21,8 +21,8 @@ window.onload = function () {
         errorBlock: $('.error-js')
     };
 
-    var userManager = new UserManager({socket: socket, EVENTS: EVENTS, SELECTORS: SELECTORS});
-    var gameManager = new GameManager({socket: socket, EVENTS: EVENTS, callback: { getUser: userManager.getUser, showPage: userManager.showPages }});
+    var userManager = new UserManager({ socket: socket, EVENTS: EVENTS, SELECTORS: SELECTORS });
+    var gameManager = new GameManager({ socket: socket, EVENTS: EVENTS, callback: { getUser: userManager.getUser, showPage: userManager.showPages }});
 
     function initUI() {
         new Tabs({ SELECTORS: SELECTORS });

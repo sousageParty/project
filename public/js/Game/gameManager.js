@@ -25,15 +25,21 @@ function GameManager(options) {
 
     //Вешаем события. Генерируем события, касающиеся игры здесь!
     function eventHandler() {
+        view = new View($('.watchExample'));
+        var planet = { id: "planet", radius: $('.range-radius-js').val() - 0, position: { x: $('.range-center-js').val() - 0, y: 0, z: 0 }, color: color, speed: $('.range-speed-js').val() - 0  };
+        view.createPlanet(planet);
         $('.ranges').on('change', function () {
-            view = null;
-            view = new View($('.watchExample'), false);
-            //{ x: 5, y: 0, z: 3 },
-            view.createPlanet($('.radius').html() - 0, { x: $('.center').html() - 0, y: 0, z: 0 }, color, $('.speed').html() - 0);
+            planet.position.x = $('.range-center-js').val() - 0;
+            planet.radius = $('.range-radius-js').val() - 0;
+            planet.speed = $('.range-speed-js').val() - 0;
+            //view.updateScene([planet]);
+            view.createPlanet(planet);
         });
+
         $('.join-game-btn-js').on('click', function() {//присоединиться к игре
             joinGame();
         });
+
         $('.leave-game-btn-js').on('click', function() {//выйти из игры
             socket.emit(EVENTS.USER_LEAVE_GAME);
         });
@@ -41,22 +47,23 @@ function GameManager(options) {
 
     //подписываемся на все сокеты, касающиеся игры здесь!
     function socketHandler() {
-        socket.on(EVENTS.USER_JOIN_GAME, function(result) {//присоединиться к игре
-            if (result) {
+        //присоединиться к игре
+        socket.on(EVENTS.USER_JOIN_GAME, function(data) {
+            if (data && data.planets && data.rockets) {
                 showPageCallback('third-page-js');
                 view = null;
-                view = new View($('.third-page-js'), true);
-            }
-        });
-        socket.on(EVENTS.GAME_UPDATE_SCENE, function (data) {//обновить сцену
-            //console.log(data);
-            if (!($.isEmptyObject(data.planets)) && view) {
+                view = new View($('.third-page-js'));
                 view.createPlanets(data.planets);
-                /*for(var key in data.planets) {
-                    view.createPlanet(data.planets[key].radius, data.planets[key].position, data.planets[key].face, data.planets[key].speed);
-                }*/
             }
         });
+
+        //обновить сцену
+        socket.on(EVENTS.GAME_UPDATE_SCENE, function (data) {
+            if (!($.isEmptyObject(data.planets)) && view) {
+                view.updateScene(data.planets);
+            }
+        });
+
     }
 
     function init() {

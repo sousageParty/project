@@ -28,9 +28,9 @@ function GameManager(options) {
             socket.on(SOCKET_EVENTS.USER_JOIN_GAME, function(data) {
                 user = trigger.call(TRIGGER_EVENTS.GET_USER, socket.id);
                 if (user && data) {
-                    game.join(user, data);
+                    var scene = game.join(user, data);
                 }
-                socket.emit(SOCKET_EVENTS.USER_JOIN_GAME, !!(user));
+                socket.emit(SOCKET_EVENTS.USER_JOIN_GAME, scene);
             });
 
             socket.on(SOCKET_EVENTS.USER_LEAVE_GAME, function(data) {
@@ -42,6 +42,7 @@ function GameManager(options) {
                 game.leave(user);
                 user = null;
 			});
+
 		});
     }
     init();
