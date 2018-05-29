@@ -33,8 +33,13 @@ function Game(options) {
         updateSceneCallback(scene);
     }
 
-    this.fire = function(id) {
-        //...
+    this.fireRocket = function(user, rocket) {
+        var color = ("rgb(" + Math.round(Math.random() * 255) + ", " + Math.round(Math.random() * 255) + ", " + Math.round(Math.random() * 255) + ")");//переделать, извращение!
+        var planet = scene.planets[user.id];
+        if (planet) {
+            scene.rockets[user.id] = new ST.Rocket({ id: rocket.id, planetId: ((rocket.planetId) ? rocket.planetId : "planet"), position: new ST.Point(planet.position.x, planet.position.y + planet.radius, planet.position.z), face: ((rocket.face) ? rocket.face: color), mass: rocket.mass, speed: ((rocket.speed) ? rocket.speed : planet.speed), a: planet.a, b: planet.b });
+        }
+        return scene.rockets;
     };
 
     this.join  = function (user, data) {

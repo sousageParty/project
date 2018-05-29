@@ -71,6 +71,7 @@ function UserManager(options) {
         });
         //регистрация
         socket.on(EVENTS.USER_REGISTERED, function (data) {
+            console.log(data);
             if ("string" === typeof(data)) {
                 clearInputs();
                 SELECTORS.errorBlock.empty();

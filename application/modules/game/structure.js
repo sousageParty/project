@@ -22,10 +22,11 @@ function Planet(options) {
 
 function Rocket(options) {
     this.id = options.id;
+    this.planetId = options.planetId;
     this.mass = options.mass || 1; //tons
     this.speed = options.speed; //km/sec
     this.position = options.position || new Point(0, 0, 0);
-    this.direction = options.directoin || new Point(0, 0, 0);
+    this.direction = options.direction || new Point(0, 0, 0);
 }
 
 STRUCTURE.Point = Point;

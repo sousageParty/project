@@ -20,6 +20,7 @@ var SOCKET_EVENTS = {
 	USER_JOIN_GAME: 'user join game',
 	USER_LEAVE_GAME: 'user leave game',
     GAME_UPDATE_SCENE: 'game update scene',
+    GAME_PUSH_ROCKET: 'game push rocket'
 };
 
 var TRIGGER_EVENTS = {

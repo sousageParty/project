@@ -35,3 +35,7 @@ h2 {
 .signUp {
     margin-left: 30px;
 }
+
+.second-tab {
+    display: none;
+}

@@ -4,6 +4,7 @@
     left: 3%;
     width: 93%;
     height: 50%;
+    display: none;
 }
 .watchExample {
     width: 100%;

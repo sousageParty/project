@@ -38,6 +38,13 @@ function GameManager(options) {
                 user = null;
             });
 
+            socket.on(SOCKET_EVENTS.GAME_PUSH_ROCKET, function (data) {
+                //{ id: "rocket", idPlanet: "planet", mass: 100, speed: 0.002, position: { x:0, y:0, z:0 } }
+                if (user) {
+                    socket.emit(SOCKET_EVENTS.GAME_PUSH_ROCKET, game.fireRocket(user, data));
+                }
+            });
+
 			socket.on('disconnect', function () {
                 game.leave(user);
                 user = null;

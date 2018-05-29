@@ -5,11 +5,10 @@ window.onload = function () {
     var EVENTS = {
         USER_LOGIN: 'user login',
         USER_LOGOUT: 'user logout',
-        USER_AUTHORIZED: 'user authorized',
         USER_REGISTERED: 'user registered',
         USER_JOIN_GAME: 'user join game',
         USER_LEAVE_GAME: 'user leave game',
-        GAME_SHOT: 'game shot',
+        GAME_PUSH_ROCKET: 'game push rocket',
         GAME_UPDATE_SCENE: 'game update scene'
     };
     var SELECTORS = {

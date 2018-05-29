@@ -27,7 +27,7 @@ function GameManager(options) {
     function eventHandler() {
         view = new View($('.watchExample'));
         var planet = { id: "planet", radius: $('.range-radius-js').val() - 0, position: { x: $('.range-center-js').val() - 0, y: 0, z: 0 }, color: color, speed: $('.range-speed-js').val() - 0  };
-        view.createPlanet(planet);
+        /*view.createPlanet(planet);*/
         $('.ranges').on('change', function () {
             planet.position.x = $('.range-center-js').val() - 0;
             planet.radius = $('.range-radius-js').val() - 0;
@@ -36,31 +36,45 @@ function GameManager(options) {
             view.createPlanet(planet);
         });
 
-        $('.join-game-btn-js').on('click', function() {//присоединиться к игре
+        $('.join-game-btn-js').on('click', function () {//присоединиться к игре
             joinGame();
         });
 
-        $('.leave-game-btn-js').on('click', function() {//выйти из игры
+        $('.leave-game-btn-js').on('click', function () {//выйти из игры
             socket.emit(EVENTS.USER_LEAVE_GAME);
         });
+
+        $('.third-page-js').on('click', function () {
+            var rocket = { id: "rocket" + user.id, idPlanet: user.id };
+            socket.emit(EVENTS.GAME_PUSH_ROCKET, rocket);
+        });
+
+
     }
 
     //подписываемся на все сокеты, касающиеся игры здесь!
     function socketHandler() {
         //присоединиться к игре
         socket.on(EVENTS.USER_JOIN_GAME, function(data) {
-            if (data && data.planets && data.rockets) {
+            if (data && data.planets) {
                 showPageCallback('third-page-js');
                 view = null;
                 view = new View($('.third-page-js'));
                 view.createPlanets(data.planets);
             }
         });
-
         //обновить сцену
         socket.on(EVENTS.GAME_UPDATE_SCENE, function (data) {
+            //console.log(data);
             if (!($.isEmptyObject(data.planets)) && view) {
-                view.updateScene(data.planets);
+                view.updateScene(data);
+            }
+        });
+        //
+        socket.on(EVENTS.GAME_PUSH_ROCKET, function (rockets) {
+            if (rockets) {
+                console.log(rockets);
+                view.createRockets(rockets);
             }
         });
 
