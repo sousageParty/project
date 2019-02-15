@@ -24,7 +24,7 @@ var router = express.Router();
 router.get('/vm-21/:name/:soname', function(req, res) {
 	var name = req.params.name;
 	var soname = req.params.soname;
-	res.send('Hello, ' + ((name) ? name : 'unknown ') + ' ' + ((soname) ? soname : 'Unknown ') + ' sosiska !!!');
+	res.send('Hello, ' + ((name) ? name : 'unknown ') + ' ' + ((soname) ? soname : 'Unknown ') + ' sosiska !!!!');
 });*/
 
 router.all('/*', function(req, res) {
